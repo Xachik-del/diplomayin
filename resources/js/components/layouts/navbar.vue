@@ -10,28 +10,21 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <router-link class="navbar-brand" to="/home"><img src="/img/logo.png" alt=""></router-link>
+                    <router-link class="navbar-brand" to="/home"><img src="/img/new-logo.png" alt=""></router-link>
                 </div>
 
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-                    <ul class="nav navbar-nav text-uppercase">
-                        <li>
-                            <router-link to="/" tag="a">Homepage</router-link>
-                        </li>
-                    </ul>
-
                     <ul class="nav navbar-nav text-uppercase pull-right" v-if="this.$store.getters.isLoggedIn">
 
                         <li>
                             <router-link to="/profile">My profile</router-link>
                         </li>
                         <li>
-                            <router-link to="/users">All Users</router-link>
+                            <router-link to="/friends">Friends</router-link>
                         </li>
                         <li>
-                            <router-link to="/my-posts">My Posts</router-link>
+                            <router-link :to="{name: 'user_posts'}">My Posts</router-link>
                         </li>
                         <li><a href="" @click.prevent="logout">Logout</a></li>
                     </ul>

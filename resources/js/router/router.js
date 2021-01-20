@@ -7,6 +7,7 @@ import store from '../store'
 import Register from '../components/auth/register'
 import Login from '../components/auth/login'
 import Home from '../components/pages/home'
+import UserPosts from '../components/pages/posts/UserPosts'
 
 
 Vue.use(VueRouter);
@@ -33,6 +34,14 @@ const routes = [
         name: 'home',
         path: '/home',
         component: Home,
+        meta: {
+            auth: 'auth'
+        }
+    },
+    {
+        name: 'user_posts',
+        path: '/my-posts',
+        component: UserPosts,
         meta: {
             auth: 'auth'
         }
