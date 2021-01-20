@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostsTable extends Migration
+class CreateBlogPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,30 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('blog_posts', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('category_id');
+            $table->unsignedInteger('user_id');
+
+            $table->string('slug')->unique();
             $table->string('title');
-            $table->string('slug');
+
             $table->string('content')->nullable();
-            $table->integer('category_id')->nullable();
-            $table->integer('user_id')->nullable();
+
             $table->integer('status')->default(0);
-            $table->integer('views')->default(0);
-            $table->date('date')->nullable();
+            $table->boolean('is_published')->default(false);
+            $table->timestamp('published_at')->nullable();
             $table->string('image')->nullable();
+
+            $table->integer('views')->default(0);
             $table->integer('is_featured')->default(0);
+
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('category_id')->references('id')->on('blog_categories');
+            $table->index('is_published');
         });
     }
 

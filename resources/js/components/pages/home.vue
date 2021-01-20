@@ -6,12 +6,12 @@
 
                     <article class="post">
                         <div class="post-thumb">
-<!--                            <a href="{{route('show',$post->slug)}}"><img src="{{$post->getImage()}}" alt="" style="height: 500px;"></a>-->
+                            <a href=""><img src="" alt="" style="height: 500px;"></a>
 
 
-<!--                            <a href="{{route('show',$post->slug)}}" class="post-thumb-overlay text-center">-->
+                            <a href="" class="post-thumb-overlay text-center">
                                 <div class="text-uppercase text-center">View Post</div>
-<!--                            </a>-->
+                            </a>
                         </div>
                         <div class="post-content">
                             <header class="entry-header text-center text-uppercase">

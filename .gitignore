@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/debugbar
 /vendor
 .env
 .env.backup
@@ -10,3 +11,12 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/public/js/app.js
+/public/css/app.css
+/public/mix.js
+/storage/teamConfig
+/.idea
+/.vagrant
+/public/js/vendor.js
+public/js/bootstrap.js
+public/js/vendor.js

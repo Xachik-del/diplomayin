@@ -97,12 +97,14 @@
         methods: {
             register() {
                 if (this.validForm()){
+                    this.errors.response_errors = null;
                     axios.post('/register', this.register_data).then(({data}) => {
-                        console.log(data);
                             if (data.success) {
+                                alertify.notify("You have successfully registered, please log in", 'success', '4');
                                 this.$router.push({name: 'login'});
                             } else {
                                 this.errors.response_errors = data.errors;
+                                console.log(this.errors.response_errors);
                             }
                     })
                 }

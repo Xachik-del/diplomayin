@@ -85,7 +85,7 @@ class RegisterController extends Controller
                 'success' => false,
                 'user' =>  null,
                 'errors' => $validated->errors()
-            ], 403);
+            ]);
         }
 
         event(new Registered($user = $this->create($request->all())));

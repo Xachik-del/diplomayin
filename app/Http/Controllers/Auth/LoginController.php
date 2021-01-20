@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -44,9 +45,11 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+
         $validated = $this->validateLogin($request);
 
         if ($validated->fails()) {
+
             return response()->json([
                 'success' => false,
                 'errors' => $validated->errors(),
@@ -64,6 +67,7 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
+
             return $this->sendLoginResponse($request);
         }
 
@@ -72,7 +76,7 @@ class LoginController extends Controller
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
 
-        return $this->sendFailedLoginResponse($request);
+        return $this->sendFailedLoginResponse($validated->errors());
     }
 
 
@@ -86,6 +90,7 @@ class LoginController extends Controller
      */
     protected function validateLogin(Request $request)
     {
+
         return Validator::make($request->all(), [
             $this->username() => 'required|string',
             'password' => 'required|string',
@@ -116,6 +121,7 @@ class LoginController extends Controller
      */
     protected function sendLoginResponse(Request $request)
     {
+
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
@@ -123,5 +129,42 @@ class LoginController extends Controller
         if ($response = $this->authenticated($request, $this->guard()->user())) {
             return $response;
         }
+    }
+
+//    /**
+//     * Get the failed login response instance.
+//     *
+//     * @param  \Illuminate\Http\Request  $request
+//     * @return \Symfony\Component\HttpFoundation\Response
+//     *
+//     * @throws \Illuminate\Validation\ValidationException
+//     */
+//    protected function sendFailedLoginResponse($errors)
+//    {
+//        return response()->json([
+//            'success' => false,
+//            'errors' => $errors,
+//        ]);
+//    }
+
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+       return response()->json([
+           'success' => true,
+           'message' => "You Are Logged Out",
+       ]);
     }
 }

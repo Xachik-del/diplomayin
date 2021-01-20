@@ -11,13 +11,6 @@
                 <div class="col-md-8">
 
                     <div class="leave-comment mr0">
-
-                        <!--                        @if(session('error'))-->
-                        <!--                        <div class="alert alert-danger">-->
-                        <!--                            {{session('error')}}-->
-
-                        <!--                        </div>-->
-                        <!--                        @endif-->
                         <h3 class="text-uppercase">Login</h3>
                         <!--                        @include('admin.errors')-->
                         <br>
@@ -25,7 +18,8 @@
                             <!--                            {{csrf_field()}}-->
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <input v-model="login_data.email" type="text" class="form-control" id="email" name="email" placeholder="Email" @blur="ValidateEmail">
+                                    <input v-model="login_data.email" type="text" class="form-control" id="email" name="email" placeholder="Email"
+                                           @blur="ValidateEmail">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -77,22 +71,23 @@
                     password: ''
                 },
                 errors: {
-                    email : '',
-                    password : '',
+                    email: '',
+                    password: '',
                     response_errors: null
                 }
             }
         },
         methods: {
             login() {
-                if (this.validForm()){
+                if (this.validForm()) {
                     axios.post('/login', this.login_data).then(({data}) => {
-                        if (data.success){
+                        if (data.success) {
+                            alertify.success('You are Logged in');
                             this.$store.commit("setLoggedIn", true);
                             this.$router.push({name: 'home'})
-                        }else{
-                            this.errors.response_errors = data.errors;
                         }
+                    }).catch((error) => {
+                        alertify.error('Credentials are wrong', '5');
                     })
                 }
             },
@@ -100,13 +95,13 @@
              * @return {boolean}
              */
             ValidatePassword() {
-                if(!this.login_data.password.length){
-                    this.errors.password = "Please enter your name";
+                if (!this.login_data.password.length) {
+                    this.errors.password = "Please enter your password";
                     return false;
-                }else if(this.login_data.password.length < 6) {
+                } else if (this.login_data.password.length < 6) {
                     this.errors.password = "Password must be at least 8 characters";
                     return false
-                } else{
+                } else {
                     this.errors.password = null;
                     return true;
                 }
@@ -114,7 +109,7 @@
             /**
              * @return {boolean}
              */
-            validForm(){
+            validForm() {
                 return this.ValidateEmail() && this.ValidatePassword();
             },
             /**

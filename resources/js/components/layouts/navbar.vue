@@ -24,14 +24,24 @@
 
                     <ul class="nav navbar-nav text-uppercase pull-right" v-if="this.$store.getters.isLoggedIn">
 
-                        <li><router-link to="/profile">My profile</router-link></li>
-                        <li><router-link to="/users">All Users</router-link></li>
-                        <li><router-link to="/my-posts">My Posts</router-link></li>
-                        <li><router-link to="/logout">Logout</router-link></li>
+                        <li>
+                            <router-link to="/profile">My profile</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/users">All Users</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/my-posts">My Posts</router-link>
+                        </li>
+                        <li><a href="" @click.prevent="logout">Logout</a></li>
                     </ul>
                     <ul class="nav navbar-nav text-uppercase pull-right" v-else>
-                        <li><router-link to="/register">Register</router-link></li>
-                        <li><router-link to="/login">Login</router-link></li>
+                        <li>
+                            <router-link to="/register">Register</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/login">Login</router-link>
+                        </li>
                     </ul>
 
                 </div>
@@ -56,6 +66,22 @@
         name: "navbar",
         created() {
             console.log(this.$store.getters.isLoggedIn)
+        },
+        methods: {
+            clearStorage() {
+                this.$store.commit("setLoggedIn", false);
+                this.$store.commit("setUser", null);
+                this.$router.push({name: "login"});
+            },
+            logout() {
+                axios.post('/logout').then(({data}) => {
+                    alertify.notify(data.message, 'success', '5')
+                    this.clearStorage();
+                }).catch((error) => {
+                    alertify.notify("Failed to log out" + error, 'danger', '5')
+                    this.clearStorage();
+                })
+            }
         }
     }
 </script>
