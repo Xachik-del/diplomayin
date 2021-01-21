@@ -17,11 +17,16 @@
                         <textarea name="content" id="content" cols="30" rows="10" style="width: 200px;height: 40px;"
                                   v-model="data.description"></textarea>
                         <hr>
+                        <label for="category">Category</label><br>
+                        <select name="" id="category" v-model="data.category_id">
+                            <option value="" v-for="category in categories" :key="category.id" :value="category.id">{{ category.title }}</option>
+                        </select>
+                        <hr>
                         <label for="image">Add Image</label><br>
                         <input type="file" id="image" name="image" multiple>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" @click="save">Save changes</button>
+                        <button class="btn btn-primary" data-dismiss="modal" @click="save">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -47,27 +52,50 @@
                 data: {
                     title: null,
                     description: null,
-                    file: null
-                }
+                    file: null,
+                    category_id: null
+                },
+                categories: null
             }
         },
         mounted() {
-
+            if (this.post){
+                this.data = {
+                    title: this.post.title,
+                    description: this.post.description,
+                    category_id: this.post.category_id,
+                }
+            }
+                this.getCategories();
         },
         methods: {
             save() {
-                axios.post('posts', this.data).then(({data}) => {
-                    console.log(data);
+                this.$store.commit('setPreloader', true);
+                axios.post(this.$store.getters.getBasePath + '/api/posts', this.data).then(({data}) => {
+                    if (data.success) {
+                        alertify.success(this.action === 'create' ? 'New Post Added' : 'Post updated successfully', '5');
+                        this.$store.commit('setPreloader', false);
+                        this.closeModal(data.post);
+                    }
+                }).catch((error) => {
+                    this.$store.commit('setPreloader', false);
+                    alertify.error(error, '5')
                 });
             },
-            closeModal() {
+            getCategories() {
+                this.$store.commit('setPreloader', true);
+                axios.get(this.$store.getters.getBasePath + '/api/categories').then(({data}) => {
+                    this.categories = data.categories;
+                    this.$store.commit('setPreloader', false);
+                });
+            },
+            closeModal(new_post = null) {
                 this.data = {
                     title: null,
                     description: null,
                     file: null
                 };
-                console.log(this.data);
-                this.$emit('close');
+                this.$emit('close', new_post);
             }
         },
     }

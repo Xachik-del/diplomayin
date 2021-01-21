@@ -62,12 +62,22 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Post $post
-     * @return Response
+     * @param \App\Models\BlogPost $post
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Post $post)
+    public function show(BlogPost $post)
     {
-        //
+        if ($post){
+            return response()->json([
+                'success' => true,
+                'post' => $post->load(['author','comments']),
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'post' => null,
+            ]);
+        }
     }
 
     /**

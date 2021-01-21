@@ -86,7 +86,7 @@
         methods: {
             getPosts(page = 1) {
                 this.$store.commit('setPreloader', true);
-                axios.get('/posts?page=' + page).then(({data}) => {
+                axios.get('api/posts?page=' + page).then(({data}) => {
                     if (data.success) {
                         this.posts = data.posts;
                     }

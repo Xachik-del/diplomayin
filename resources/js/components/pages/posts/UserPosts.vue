@@ -7,7 +7,7 @@
                     Add Post
                 </button>
 
-                <post-modal v-if="showModal" :post="null" action="create" @close="showModal = false"></post-modal>
+                <post-modal v-if="showModal" :post="null" action="create" @close="saveChanges"></post-modal>
             </div>
             <div class="row">
                 <div class="col-md-8">
@@ -100,21 +100,35 @@
             }
         },
         mounted() {
-            this.getUserPosts();
+            this.getUserPosts(this.$route.query.page);
         },
         methods: {
             getUserPosts(page = 1) {
                 this.$store.commit('setPreloader', true);
-                axios.get('/user-posts?page=' + page).then(({data}) => {
+                axios.get('api/my-posts?page=' + page).then(({data}) => {
                     if (data.success){
                         this.posts = data.posts;
+                        if (this.$route.query.page !== page){
+                            this.$router.replace('/my-posts?page=' + page);
+                        }
                         this.$store.commit('setPreloader', false);
                     }
                 });
+
             },
             deletePost(slug) {
                 console.log(slug);
             },
+            saveChanges(post){
+                this.showModal = false;
+                if (post){
+                    if(this.posts.data.length < this.posts.per_page){
+                        this.posts.data.push(post)
+                    }else{
+                        this.getUserPosts(this.posts.last_page + 1);
+                    }
+                }
+            }
         }
     }
 </script>

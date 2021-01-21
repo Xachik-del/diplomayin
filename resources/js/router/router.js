@@ -8,6 +8,7 @@ import Register from '../components/auth/register'
 import Login from '../components/auth/login'
 import Home from '../components/pages/home'
 import UserPosts from '../components/pages/posts/UserPosts'
+import PostPage from "../components/pages/posts/PostPage";
 
 
 Vue.use(VueRouter);
@@ -46,15 +47,26 @@ const routes = [
             auth: 'auth'
         }
     },
+    {
+        name: 'show_post',
+        path: '/posts/:slug',
+        component: PostPage,
+        meta: {
+            auth: 'auth'
+        }
+    },
 ];
 
 const router = new VueRouter({
     routes,
-    mode: 'hash'
+    mode: 'history'
 });
 
 router.beforeEach(async (to, from, next) => {
     // Hide mob menu
+    if (to.fullPath === from.fullPath){
+        next()
+    }
 
     let user = null;
     let clearStorage = () => {

@@ -22,8 +22,20 @@ Auth::routes();
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/current', 'UserController@currentUser');
 
-Route::group(['middleware' => 'auth'], function () {
-   Route::resource('/posts', "PostController");
-   Route::get('/user-posts', "PostController@getUserPosts");
-   Route::resource('/users', "UserController");
+Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
+    //Posts
+    Route::resource('/posts', "PostController");
+    Route::get('/my-posts', "PostController@getUserPosts");
+
+    //Users
+    Route::resource('/users', "UserController");
+
+
+    //Categories
+    Route::get('categories', 'CategoryController@index');
+    //Comments
 });
+
+Route::get('/{vue_capture?}', function () {
+    return view('welcome');
+})->where('vue_capture', '[\/\w\.-]*');
