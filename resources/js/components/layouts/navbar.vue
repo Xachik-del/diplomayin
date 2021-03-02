@@ -30,10 +30,10 @@
                     </ul>
                     <ul class="nav navbar-nav text-uppercase pull-right" v-else>
                         <li>
-                            <router-link to="/register">Register</router-link>
+                            <router-link to="/sign-up">Register</router-link>
                         </li>
                         <li>
-                            <router-link to="/login">Login</router-link>
+                            <router-link to="/enter">Login</router-link>
                         </li>
                     </ul>
 
@@ -58,7 +58,6 @@
     export default {
         name: "navbar",
         created() {
-            console.log(this.$store.getters.isLoggedIn)
         },
         methods: {
             clearStorage() {

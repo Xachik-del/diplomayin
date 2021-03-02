@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
        return response()->json([
            'success' => true,
-           'categories' => BlogCategory::all(),
+           'categories' => BlogCategory::query()->with('posts')->get(),
        ]);
     }
 

@@ -9,9 +9,19 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
         <!-- Styles -->
+        <!-- Semantic UI theme -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+        <!-- Bootstrap theme -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" rel="stylesheet">
 {{--        <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
         <link href="{{ asset('css/front.css') }}" rel="stylesheet">
+        <style>
+            body {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 14px;
+                color: #333;
+            }
+        </style>
     </head>
     <body>
         <div id="app">

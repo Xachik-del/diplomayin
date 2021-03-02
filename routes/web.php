@@ -21,6 +21,10 @@ Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/current', 'UserController@currentUser');
+Route::get('api/categories', 'CategoryController@index');
+Route::get('/api/popular-posts', 'PostController@getPopularPosts');
+Route::get('/api/recent-posts', 'PostController@getRecentPosts');
+Route::get('/api/featured-posts', 'PostController@getFeaturedPosts');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
     //Posts
@@ -29,11 +33,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
     //Users
     Route::resource('/users', "UserController");
+    Route::get('/related-posts/{post}', "PostController@getRelatedPosts");
 
 
     //Categories
-    Route::get('categories', 'CategoryController@index');
     //Comments
+//    Route::post('/posts/add-comment/{post}', 'PostController@addComment');
+    Route::get('/comments', 'CommentController@index');
+    Route::post('/comments', 'CommentController@store');
 });
 
 Route::get('/{vue_capture?}', function () {

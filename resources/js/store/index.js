@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import auth from './auth'
 import user from './user'
 import other from './other'
-
+import comments from './comments'
 Vue.use(Vuex);
 
 createPersistedState({storage: window.sessionStorage});
@@ -16,6 +16,7 @@ export default new Vuex.Store({
         auth,
         user,
         other,
+        comments
     },
     plugins: [
         createPersistedState({

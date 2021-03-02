@@ -22,6 +22,9 @@
                             <option value="" v-for="category in categories" :key="category.id" :value="category.id">{{ category.title }}</option>
                         </select>
                         <hr>
+                        <label for="is_published">Published</label><br>
+                        <input type="checkbox" id="is_published" v-model="data.is_published">
+                        <hr>
                         <label for="image">Add Image</label><br>
                         <input type="file" id="image" name="image" multiple>
                     </div>
@@ -50,6 +53,8 @@
         data() {
             return {
                 data: {
+                    id: null,
+                    is_published: 0,
                     title: null,
                     description: null,
                     file: null,
@@ -59,14 +64,14 @@
             }
         },
         mounted() {
-            if (this.post){
-                this.data = {
-                    title: this.post.title,
-                    description: this.post.description,
-                    category_id: this.post.category_id,
-                }
+            if (this.post) {
+                this.data.id = this.post.id;
+                this.data.title = this.post.title;
+                this.data.description = this.post.content;
+                this.data.category_id = this.post.category_id;
+                this.data.is_published = this.post.is_published;
             }
-                this.getCategories();
+            this.getCategories();
         },
         methods: {
             save() {

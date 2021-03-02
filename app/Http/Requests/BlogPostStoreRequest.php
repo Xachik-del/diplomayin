@@ -25,6 +25,7 @@ class BlogPostStoreRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'category_id' => 'required|exists:App\Models\BlogCategory,id',
         ];
     }
 }

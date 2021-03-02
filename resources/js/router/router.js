@@ -17,7 +17,7 @@ Vue.use(VueRouter);
 const routes = [
     {
         name: 'register',
-        path: '/register',
+        path: '/sign-up',
         component: Register,
         meta: {
             auth: 'guest'
@@ -25,7 +25,7 @@ const routes = [
     },
     {
         name: 'login',
-        path: '/login',
+        path: '/enter',
         component: Login,
         meta: {
             auth: 'guest'
@@ -50,7 +50,7 @@ const routes = [
     {
         name: 'show_post',
         path: '/posts/:slug',
-        component: PostPage,
+        component: () => import("../components/pages/posts/PostPage"),
         meta: {
             auth: 'auth'
         }
@@ -72,7 +72,7 @@ router.beforeEach(async (to, from, next) => {
     let clearStorage = () => {
         store.commit("setLoggedIn", false);
         store.commit("setUser", null);
-        next('/login');
+        next('/enter');
     };
 
     if (store.getters.isLoggedIn) {
@@ -99,7 +99,7 @@ router.beforeEach(async (to, from, next) => {
         if (user) {
             next();
         } else {
-            next('/login');
+            next('/enter');
         }
     }
 

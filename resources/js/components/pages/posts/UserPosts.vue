@@ -12,7 +12,6 @@
             <div class="row">
                 <div class="col-md-8">
                     <article class="post" v-for="post in posts.data" :key="post.id">
-                        {{post.title}}
                         <div class="post-thumb">
                             <router-link :to="{name: 'show_post', params: {slug: post.slug}}">
                                 <img v-if="post.image" :src="/uploads/ + post.image" alt="" style="height: 500px;">
